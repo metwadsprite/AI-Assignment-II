@@ -1,65 +1,61 @@
-import search
+from search import Problem
 import utils
 import copy
 
-class WaterJugProblem(search.Problem):
+class WaterJugProblem(Problem):
     
-    def __init__(self, init_state, final_state, max_caps):
-        self.initial = init_state
-        self.goal = final_state
-        self.max_caps = max_caps
+    def __init__(self, init_state, final_state, max_qty):
+        Problem.__init__(self, init_state, final_state)
+        self.max_qty = max_qty
 
 
     def actions(self, state):
-        return_actions = []
+        ret_actions = []
 
         for i in range(len(state)):
-            if state[i] != self.max_caps[i]:
-                new_action = dict()
-                new_action[i] = self.max_caps[i] - state[i]
+            new_action = dict()
 
-                return_actions.append(new_action)
-
-            if state[i] != 0:
-                new_action = dict()
+            if state[i] == 0:
+                new_action[i] = self.max_qty[i]
+            elif state[i] != self.max_qty[i]:
                 new_action[i] = -state[i]
+                ret_actions.append(new_action)
+                new_action[i] = self.max_qty[i] - state[i]
+            else:
+                new_action[i] = -state[i]
+            
+            ret_actions.append(new_action)
 
-                return_actions.append(new_action)
-
-        for i in range(len(state) - 1):
-            for j in range(i, len(state)):
-                move_quant = min(self.max_caps[j] - state[j], state[i])
-                
-                if move_quant == 0:
-                    continue
-                
+        for i in range(len(state)):
+            for j in range(len(state)):
                 new_action = dict()
                 
-                new_action[j] = move_quant
-                new_action[i] = -move_quant
-
-                return_actions.append(new_action)
-        
-        for i in range(len(state) - 1, 1):
-            for j in range(i, 0):
-                move_quant = min(self.max_caps[j] - state[j], state[i])
-                
-                if not move_quant:
+                if i == j:
                     continue
 
-                new_action = dict()
-                
-                new_action[j] = move_quant
-                new_action[i] = -move_quant
-                return_actions.append(new_action)
+                move_qty = min(state[i], self.max_qty[j] - state[j])
+                new_action[i] = -move_qty
+                new_action[j] = move_qty
 
-        print(return_actions)
-        return return_actions
+                ret_actions.append(new_action)
+
+        return ret_actions
 
     
     def result(self, state, action):
-        for key, quant in action.items():
-            state[key] += quant
-            
-        print(state)
-        return state
+        new_state = list(copy.deepcopy(state))
+
+        for key, value in action.items():
+            new_state[key] += value
+
+        new_state = tuple(new_state)
+        return new_state
+
+
+    def h(self, state):
+        sum = 0
+
+        for i in range(len(state)):
+            sum += abs(state[i] - self.goal[i])
+
+        return sum
