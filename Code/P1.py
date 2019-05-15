@@ -52,10 +52,10 @@ class WaterJugProblem(Problem):
         return new_state
 
 
-    def h(self, state):
+    def h(self, node):
         sum = 0
 
-        for i in range(len(state)):
-            sum += abs(state[i] - self.goal[i])
+        for i in range(len(node.state)):
+            sum += abs(node.state[i] - self.goal[i])
 
         return sum
