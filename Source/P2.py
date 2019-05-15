@@ -49,3 +49,21 @@ class NPuzzleProblem(Problem):
 
     
     # TODO: Heurisitics
+    def h(self, node):
+        sum = 0
+        
+        for i in range(len(node.state)):
+            if node.state[i] == 0:
+                if (i + 1) != self.board_size:
+                    sum += 1
+                if self.board_size**2 // (i + 1) != self.board_size:
+                    sum += 1
+                continue
+
+            if node.state[i] % self.board_size != (i + 1) % self.board_size:
+                sum += 1
+
+            if self.board_size**2 // node.state[i] != self.board_size**2 // (i + 1):
+                sum += 1
+
+        return sum
