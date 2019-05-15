@@ -9,16 +9,16 @@ def main():
     water_jug_prob = P1.WaterJugProblem((0, 0), (2, 0), (4, 3))
     
     t0 = time.time()
-    sol1 = search.breadth_first_tree_search(water_jug_prob).solution()
+    src1 = search.breadth_first_tree_search(water_jug_prob)
     
     t1 = time.time()
-    sol2 = search.astar_search(water_jug_prob).solution()
+    src2 = search.astar_search(water_jug_prob)
     
     dt2 = time.time() - t1
     dt1 = t1 - t0
 
-    print(sol1)
-    print(sol2)
+    print(src1.solution())
+    print(src2.solution())
     
     print("Uninformed search time: {0:.4f} seconds\nInformed search time: {1:.4f} seconds".format(dt1, dt2))
 
@@ -30,16 +30,16 @@ def main():
         (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0), 4)
     
     t0 = time.time()
-    sol1 = search.astar_search(puzzle_prob, puzzle_prob.h1).solution()
+    src1 = search.astar_search(puzzle_prob, puzzle_prob.h1)
     
     t1 = time.time()
-    sol2 = search.astar_search(puzzle_prob, puzzle_prob.h2).solution()
+    src2 = search.astar_search(puzzle_prob, puzzle_prob.h2)
     
     dt2 = time.time() - t1
     dt1 = t1 - t0
     
-    print(sol1)
-    print(sol2)
+    print(src1.solution())
+    print(src2.solution())
     
     print("Heuristic 1 search time: {0:.4f} seconds\nHeuristic 2 search time: {1:.4f} seconds".format(dt1, dt2))
 

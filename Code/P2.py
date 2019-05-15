@@ -40,7 +40,6 @@ class NPuzzleProblem(Problem):
 
     
     def h1(self, node):
-        # Number of tiles out of row plus number of tiles out of column
         tile_sum = 0
 
         for i in range(len(node.state)):
@@ -53,13 +52,13 @@ class NPuzzleProblem(Problem):
 
 
     def h2(self, node):
-        # Nilsson's Sequence Score
         manhat_dist = 0
         seq_score = 1
 
-        for i, j in zip(range(len(node.state)), range(len(self.goal))):
-            manhat_dist += abs((i // self.board_size) - (j // self.board_size) + \
-                (i % self.board_size) - (j % self.board_size))
+        for i in range(len(node.state)):
+            j = self.goal.index(node.state[i])
+            manhat_dist += abs((i // self.board_size) - (j // self.board_size)) + \
+                abs((i % self.board_size) - (j % self.board_size))
 
         for i in range(len(node.state) - 1):
             goal_pos = self.goal.index(node.state[i])

@@ -1,0 +1,83 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\title{A.I. Assignment II - Documentation}
+\author{Vlad Vasilescu \\ CEN 2.3B}
+\date{May 2019}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 1 - Water Jug Problem}
+Given a number of jugs without any measuring markings of specified quantities and an infinite water
+source, find a way to get to the asked for quantities in each jug.
+
+\subsection*{The "WaterJugProblem" class:}
+Implements the "Problem" class. Apart from the two constructor arguments of it's parent class 
+(initial state and goal state) it also requires a third, the maximum quantity for each jug.
+
+\subsection*{Possible actions:}
+\begin{itemize}
+    \item Fill a jug.
+    \item Pour out the water from a jug.
+    \item Pour water from one jug to another.
+\end{itemize}
+
+\subsection*{Heuristic:}
+The sum of differnces between the goal and current quantity for each jug.
+
+\subsection*{Conclusion:}
+Even with a simple heuristic the informed search performs much better than the uninformed one
+(roughly 100 times faster on the given example).
+
+\section*{Problem 2 - N-Puzzle Problem}
+Given a board of NxN size with $N^{2} - 1$ numbered tiles and a missing one, find a way to
+get to the given arrangement of the tiles.
+
+\subsection*{The "NPuzzleProblem" class:}
+Implements the "Problem" class. It's constructor also requires a third argument, the board size.
+
+\subsection*{Possible actions:}
+\begin{itemize}
+    \item Swap the empty tile with the one above it. (Not possible if the empty tile is on the
+    first row)
+    \item Swap the empty tile with the one below it. (Not possible if the empty tile is on the 
+    last row)
+    \item Swap the empty tile with the one to it's left. (Not possible if the empty tile is on
+    the first column)
+    \item Swap the empty tile with the one to it's right. (Not possible if the empty tile is on
+    the last column)
+\end{itemize}
+
+\subsection*{Heuristics:}
+\paragraph{1.}
+Number of tiles not on their row plus number of tiles not on their column.
+
+\paragraph{2.}
+$h = P + N * S$ where:
+\begin{itemize}
+    \item P is manhattan distance of each tile to it's proper position.
+    \item N is the number of lines/columns on the board.
+    \item S is a score calculated by iterating through each line and adding 2
+    for every tile that is not followed by it's proper successor and 0 otherwise.
+    The score starts at one.
+\end{itemize}
+This heuristic is based upon "Nilsson's Sequence Score".
+
+\subsection*{Conclusion:}
+While the first heuristic is much simpler, it is also faster (approx. 5-10 times)
+than the second. Even so the difference between using any of the heuristics and an uninformed
+search is much greater. I haven't included the uninfromed search test for this problem
+because it would increase the run time from under one second to a good couple of seconds.\\
+Another thing we can observe is that while both the heuristics lead to the same result
+(the goal state) they take different action paths.
+
+\section*{Final note:}
+The testing methodology used is measuring the time right before and after each search and
+calculating the difference.
+
+\end{document}
