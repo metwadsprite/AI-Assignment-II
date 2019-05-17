@@ -43,9 +43,11 @@ class NPuzzleProblem(Problem):
         tile_sum = 0
 
         for i in range(len(node.state)):
-            if node.state[i] // self.board_size != self.goal[i] // self.board_size:
+            j = self.goal.index(node.state[i])
+
+            if i // self.board_size != j // self.board_size:
                 tile_sum += 1
-            if node.state[i] % self.board_size != self.goal[i] % self.board_size:
+            if i % self.board_size != j % self.board_size:
                 tile_sum += 1
 
         return tile_sum
